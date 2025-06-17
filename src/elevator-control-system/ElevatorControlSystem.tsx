@@ -32,7 +32,8 @@ const ElevatorControlSystem: React.FC = () => {
   const [calls, setCalls] = useState<ElevatorCall[]>([]);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [isRunning, setIsRunning] = useState(false);
-  const [autoCallInterval, setAutoCallInterval] = useState<number | null>(null);
+  const [autoCallInterval, setAutoCallInterval] =
+    useState<NodeJS.Timeout | null>(null);
 
   const addLog = useCallback(
     (message: string, type: LogEntry["type"] = "system") => {
@@ -86,7 +87,9 @@ const ElevatorControlSystem: React.FC = () => {
     (call: ElevatorCall): Elevator | null => {
       const availableElevators = elevators.filter((elevator) => {
         // Elevator is idle or moving in same direction and can pick up the call
-        if (elevator.status === "idle") return true;
+        if (elevator.status === "idle") {
+          return true;
+        }
 
         if (elevator.direction === call.direction) {
           if (call.direction === "up" && elevator.currentFloor <= call.floor)
@@ -290,7 +293,7 @@ const ElevatorControlSystem: React.FC = () => {
     if (isRunning) {
       const interval = setInterval(
         generateRandomCall,
-        Math.random() * 15000 + 5000
+        Math.random() * 10000 + 5000
       ); // 5-20 seconds
       setAutoCallInterval(interval);
       return () => clearInterval(interval);

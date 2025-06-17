@@ -1,5 +1,3 @@
-# 1. Install project dependencies
-npm install
-
-# 2. Start the development server with hot module replacement
-npm run dev
+1. Install dependencies: `npm install`  
+2. Start dev server: `npm run dev`  
+3. Run tests: `npm test`
